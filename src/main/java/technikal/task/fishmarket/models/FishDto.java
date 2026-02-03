@@ -1,5 +1,6 @@
 package technikal.task.fishmarket.models;
 
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Min;
@@ -12,7 +13,7 @@ public class FishDto {
 	private String name;
 	@Min(0)
 	private double price;
-	private MultipartFile imageFile;
+	private List<MultipartFile> imageFiles;
 	
 	public String getName() {
 		return name;
@@ -26,11 +27,11 @@ public class FishDto {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public MultipartFile getImageFile() {
-		return imageFile;
+	public List<MultipartFile> getImageFiles() {
+		return imageFiles;
 	}
-	public void setImageFile(MultipartFile imageFile) {
-		this.imageFile = imageFile;
+	public void setImageFiles(List<MultipartFile> imageFiles) {
+		this.imageFiles = imageFiles;
 	}
 
 }

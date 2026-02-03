@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,9 +28,10 @@
   <body>
     <div class="container">
       <h1 class="text-center my-4">Рибка на продаж</h1>
-    
-      <a class="btn btn-success" href="/fish/create">Додати рибки</a>
-    
+
+      <div sec:authorize="hasRole('ADMIN')">
+        <a class="btn btn-success" href="/fish/create">Додати рибки</a>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -47,12 +50,18 @@
             <td th:text="${fish.price} + '₴'"></td>
             <td th:text="${fish.catchDate.toString().substring(0,10)}"></td>
             <td>
-              <div class="image-container">
-                <img th:src="@{'/images/'+${fish.imageFileName}}" alt="..." width="100">
+              <div th:if="${!#lists.isEmpty(fish.images)}">
+                <div class="image-container"
+                     th:each="img : ${fish.images}">
+                  <img th:src="@{/images/{file}(file=${img.fileName})}"
+                       class="img-thumbnail me-1"/>
+                </div>
               </div>
             </td>
             <td>
-              <a class="btn btn-danger btn-sm" th:href="@{/fish/delete(id=${fish.id})}" onclick="return confirm('Ви впевнені?')">Прибрати</a> 
+              <div sec:authorize="hasRole('ADMIN')">
+               <a class="btn btn-danger btn-sm" th:href="@{/fish/delete(id=${fish.id})}" onclick="return confirm('Ви впевнені?')">Прибрати</a>
+              </div>
             </td>
           </tr>
         </tbody>   
